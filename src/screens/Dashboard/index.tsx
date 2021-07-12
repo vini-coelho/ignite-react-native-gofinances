@@ -59,6 +59,9 @@ export function Dashboard() {
 
       <Transactions>
         <Title>Listagem</Title>
+        <TransactionCard/>
+        <TransactionCard/>
+        <TransactionCard/>
       </Transactions>
     </Container>
   );
