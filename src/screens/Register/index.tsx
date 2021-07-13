@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
-import { TransactionFormButton } from '../../components/Form/TransactionFormButton';
+import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
 
 import {
   Container,
@@ -33,7 +33,7 @@ export function Register() {
           <Input placeholder='Preço'/>
 
           <TransactionTypes>
-            <TransactionFormButton
+            <TransactionTypeButton
               title='Income'
               type='up'
               onPress={() => handleTransactionTypeSelect('up')}
