@@ -6,10 +6,15 @@ import {
   Icon
 } from './styles';
 
-export function CategorySelectButton() {
+interface Props {
+  title: string;
+  onPress: () => void;
+}
+
+export function CategorySelectButton({ onPress, title }: Props) {
   return (
-    <Container>
-      <Category>Categoria</Category>
+    <Container onPress={onPress}>
+      <Category>{title}</Category>
       <Icon name='chevron-down' />
     </Container>
   );
