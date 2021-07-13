@@ -4,7 +4,8 @@ import { RectButtonProps } from 'react-native-gesture-handler';
 import {
   Container,
   Title,
-  Icon
+  Icon,
+  Button
 } from './styles';
 
 const icons = {
@@ -28,13 +29,14 @@ export function TransactionTypeButton({
     <Container
       isActive={isActive}
       type={type}
-      {...rest}
     >
-      <Icon
-        name={icons[type]}
-        type={type}
-      />
-      <Title>{title}</Title>
+      <Button {...rest}>
+        <Icon
+          name={icons[type]}
+          type={type}
+        />
+        <Title>{title}</Title>
+      </Button>
     </Container>
   );
 }
