@@ -12,6 +12,7 @@ import {
   Fields,
   TransactionTypes
 } from './styles';
+import { CategorySelectButton } from '../../components/Form/CategorySelectButton';
 
 export function Register() {
   const [transactionType, setTransactionType] = useState<'up' | 'down' | ''>('');
@@ -45,6 +46,8 @@ export function Register() {
               isActive={transactionType === 'down'}
             />
           </TransactionTypes>
+
+          <CategorySelectButton />
         </Fields>
 
         <Button title='Enviar'/>
