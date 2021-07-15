@@ -79,7 +79,7 @@ export function Register() {
       id: String(uuid.v4()),
       name: form.name,
       amount: form.amount,
-      transactionType,
+      type: transactionType,
       category: category.key,
       date: new Date()
     }
@@ -104,6 +104,7 @@ export function Register() {
   }
 
   function handleTransactionTypeSelect(type: 'up' | 'down' ) {
+    console.log(type)
     setTransactionType(type);
   }
 
