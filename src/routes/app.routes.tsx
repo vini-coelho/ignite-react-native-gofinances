@@ -21,7 +21,7 @@ export function AppRoutes() {
         inactiveTintColor: theme.colors.text,
         labelPosition: 'beside-icon',
         style: {
-          paddingVertical: Platform.OS === 'ios' ? 15 : 0,
+          paddingVertical: Platform.OS === 'ios' ? 20 : 0,
           height: 88
         },
         labelStyle: {
