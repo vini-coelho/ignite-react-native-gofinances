@@ -66,8 +66,6 @@ export function Dashboard() {
       )
     );
 
-    console.log(lastTransaction)
-
     return `${lastTransaction.getDay()} de ${lastTransaction.toLocaleDateString('pt-BR', { month: 'long' })}`
   }
 
