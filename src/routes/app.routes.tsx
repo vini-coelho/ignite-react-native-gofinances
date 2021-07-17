@@ -1,12 +1,13 @@
 import React from 'react';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
+import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components';
 import { Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { Dashboard } from '../screens/Dashboard';
 import { Register } from '../screens/Register';
-import { RFValue } from 'react-native-responsive-fontsize';
+import { Summary } from '../screens/Summary';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -57,7 +58,7 @@ export function AppRoutes() {
       />
       <Screen
         name='Resumo'
-        component={Register}
+        component={Summary}
         options={{
           tabBarIcon: (({ size, color }) => (
             <Feather
