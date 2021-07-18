@@ -16,6 +16,7 @@ import { useTheme } from 'styled-components';
 import { categories } from '../../utils/categories';
 
 import { SummaryCard } from '../../components/SummaryCard';
+import { LoadingScreen } from '../../components/LoadingScreen';
 
 import {
   Container,
@@ -49,6 +50,7 @@ interface CategoryData {
 }
 
 export function Summary() {
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [totalByCategory, setTotalByCategory] = useState([] as CategoryData[]);
 
@@ -65,6 +67,7 @@ export function Summary() {
   }
 
   async function loadData() {
+    setIsLoading(true)
     const dataKey = '@gofinances:transactions';
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted: TransactionData[] = response ? JSON.parse(response) : [];
@@ -109,9 +112,8 @@ export function Summary() {
       }
     });
 
-    console.log(totalByCategory)
-
     setTotalByCategory(totalForCurrentCategory)
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -121,6 +123,12 @@ export function Summary() {
   useFocusEffect(useCallback(() => {
     loadData();
   }, []))
+
+  if (isLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <Container>
