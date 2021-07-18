@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { useTheme } from 'styled-components';
 
 import { LoadingContaier } from './styles';
 
