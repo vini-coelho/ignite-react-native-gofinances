@@ -3,13 +3,14 @@ import React, {
   useEffect,
   useCallback
 } from 'react';
-import { Alert, ActivityIndicator } from 'react-native';
+import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { useTheme } from 'styled-components';
 
 import { HighlightCard } from '../../components/HighlightCard';
+import { LoadingScreen } from '../../components/LoadingScreen';
 import {
   TransactionCard,
   TransactionCardProps
@@ -30,7 +31,6 @@ import {
   Title,
   TransactionList,
   LogoutButton,
-  LoadingContaier
 } from './styles';
 
 export interface DataListProps extends TransactionCardProps {
@@ -157,12 +157,7 @@ export function Dashboard() {
 
   if (isLoading) {
     return (
-      <LoadingContaier>
-        <ActivityIndicator
-          color={theme.colors.primary}
-          size='large'
-        />
-      </LoadingContaier>
+      <LoadingScreen />
     );
   }
 
