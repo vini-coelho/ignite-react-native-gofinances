@@ -7,8 +7,6 @@ import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 
-import { useTheme } from 'styled-components';
-
 import { HighlightCard } from '../../components/HighlightCard';
 import { LoadingScreen } from '../../components/LoadingScreen';
 import {
@@ -53,8 +51,6 @@ export function Dashboard() {
   const [transactions, setTransactions] = useState([] as DataListProps[]);
   const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
 
-  const theme = useTheme();
-
   function getLastTransactionDate(
     collection: DataListProps[],
     type: 'up' | 'down'
@@ -70,6 +66,7 @@ export function Dashboard() {
   }
 
   async function loadTransactions() {
+    setIsLoading(true);
     try{
       const dataKey = '@gofinances:transactions';
       const response = await AsyncStorage.getItem(dataKey);
