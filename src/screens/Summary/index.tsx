@@ -50,7 +50,7 @@ interface CategoryData {
 }
 
 export function Summary() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [totalByCategory, setTotalByCategory] = useState([] as CategoryData[]);
 
@@ -116,13 +116,9 @@ export function Summary() {
     setIsLoading(false);
   }
 
-  useEffect(() => {
-    loadData();
-  }, [selectedDate]);
-
   useFocusEffect(useCallback(() => {
     loadData();
-  }, []))
+  }, [selectedDate]))
 
   if (isLoading) {
     return (
