@@ -10,6 +10,8 @@ import { ThemeProvider } from 'styled-components';
 import { NavigationContainer } from '@react-navigation/native';
 import { AuthRoutes } from './src/routes/auth.routes';
 
+import { AuthProvider } from './src/hooks/auth';
+
 import {
   useFonts,
   Poppins_400Regular,
@@ -38,7 +40,9 @@ export default function App() {
           backgroundColor='transparent'
           translucent
         />
-        <AuthRoutes />
+        <AuthProvider>
+          <AuthRoutes />
+        </AuthProvider>
       </NavigationContainer>
     </ThemeProvider>
   );
