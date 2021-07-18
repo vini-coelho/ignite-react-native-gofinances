@@ -8,7 +8,7 @@ import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { AppRoutes } from './src/routes/app.routes';
+import { AuthRoutes } from './src/routes/auth.routes';
 
 import {
   useFonts,
@@ -38,7 +38,7 @@ export default function App() {
           backgroundColor='transparent'
           translucent
         />
-        <AppRoutes />
+        <AuthRoutes />
       </NavigationContainer>
     </ThemeProvider>
   );
