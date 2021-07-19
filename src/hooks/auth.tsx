@@ -1,6 +1,7 @@
 import React, {
   createContext,
   useContext,
+  useState,
   ReactNode
 } from "react";
 
@@ -22,14 +23,17 @@ interface IAuthContextData {
   signInWithGoogle: () => Promise<void>;
 }
 
+interface AuthorizationResponse {
+  params: {
+    access_token: string;
+  },
+  type: string;
+}
+
 const AuthContext = createContext({} as IAuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const user = {
-    id: '123',
-    name: 'Vinicius Coelho',
-    email: 'vinicoelho@live.com'
-  }
+  const [user, setUser] = useState<User>({} as User);
 
   async function signInWithGoogle() {
     try {
@@ -40,9 +44,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
 
-      const response = await AuthSession.startAsync({ authUrl });
+      const { type, params } = await AuthSession
+      .startAsync({ authUrl }) as AuthorizationResponse;
 
-      console.log(response);
+      if (type === 'success') {
+        const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`);
+        const userInfo = await response.json();
+
+        setUser({
+          id: userInfo.id,
+          email: userInfo.email,
+          name: userInfo.given_name,
+          photo: userInfo.picture
+        });
+      }
     } catch(err) {
       throw new Error(err);
     }
