@@ -53,20 +53,23 @@ export function Dashboard() {
   const [transactions, setTransactions] = useState([] as DataListProps[]);
   const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
 
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
 
   function getLastTransactionDate(
     collection: DataListProps[],
     type: 'up' | 'down'
   ){
-    const lastTransaction = new Date(
+    const lastTransactionTime =
       Math.max.apply(Math, collection
         .filter(item => item.type === type)
         .map(item => new Date(item.date).getTime())
-      )
-    );
+      );
 
+    if (!isFinite(lastTransactionTime)) return '';
+
+    const lastTransaction = new Date(lastTransactionTime);
     return `${lastTransaction.getDate()} de ${lastTransaction.toLocaleDateString('pt-BR', { month: 'long' })}`;
+
   }
 
   async function loadTransactions() {
@@ -123,14 +126,14 @@ export function Dashboard() {
             style: 'currency',
             currency: 'BRL'
           }),
-          lastTransaction: lastEntryDate
+          lastTransaction: lastExpenseDate
         },
         entries: {
           amount: totalEntries.toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL'
           }),
-          lastTransaction: lastExpenseDate
+          lastTransaction: lastEntryDate
         },
         total: {
           amount: total.toLocaleString('pt-BR', {
@@ -172,11 +175,11 @@ export function Dashboard() {
         <UserWrapper>
           <UserInfo>
             <Photo
-              source={{ uri: 'https://avatars.githubusercontent.com/u/50638499?v=4' }}
+              source={{ uri: user.photo }}
             />
             <User>
               <UserGreeting>Olá, </UserGreeting>
-              <UserName>Vinicius</UserName>
+              <UserName>{user.name}</UserName>
             </User>
           </UserInfo>
           <LogoutButton onPress={handleSignOut}>
@@ -190,13 +193,13 @@ export function Dashboard() {
           type='up'
           title='Entradas'
           amount={highlightData.entries?.amount}
-          lastTransaction={`Última entrada dia ${highlightData.entries.lastTransaction}`}
+          lastTransaction={highlightData.entries.lastTransaction && `Última entrada dia ${highlightData.entries.lastTransaction}`}
         />
         <HighlightCard
           type='down'
           title='Saídas'
           amount={highlightData.expenses?.amount}
-          lastTransaction={`Última saída dia ${highlightData.expenses.lastTransaction}`}
+          lastTransaction={highlightData.expenses.lastTransaction && `Última saída dia ${highlightData.expenses.lastTransaction}`}
         />
         <HighlightCard
           type='total'
