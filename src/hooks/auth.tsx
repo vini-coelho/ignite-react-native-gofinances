@@ -30,6 +30,7 @@ interface IAuthContextData {
   signInWithGoogle: () => Promise<void>;
   signInWithApple: () => Promise<void>;
   signOut: () => Promise<void>;
+  userStorageLoading: boolean;
 }
 
 interface AuthorizationResponse {
@@ -123,7 +124,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       user,
       signInWithGoogle,
       signInWithApple,
-      signOut
+      signOut,
+      userStorageLoading
     }}>
       { children }
     </AuthContext.Provider>
