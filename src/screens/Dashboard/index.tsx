@@ -62,7 +62,7 @@ export function Dashboard() {
       )
     );
 
-    return `${lastTransaction.getDay()} de ${lastTransaction.toLocaleDateString('pt-BR', { month: 'long' })}`
+    return `${lastTransaction.getDate()} de ${lastTransaction.toLocaleDateString('pt-BR', { month: 'long' })}`;
   }
 
   async function loadTransactions() {
