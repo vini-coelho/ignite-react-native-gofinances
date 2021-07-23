@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
+import { useAuth } from '../../hooks/auth';
 
 import { CategorySelect, Category } from '../CategorySelect';
 
@@ -57,7 +58,9 @@ export function Register() {
 
   const navigation = useNavigation();
 
-  const dataKey = '@gofinances:transactions';
+  const { user } = useAuth();
+
+  const dataKey = `@gofinances:transactions_user=${user.id}`;
 
   const {
     control,

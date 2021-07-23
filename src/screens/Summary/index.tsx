@@ -12,6 +12,7 @@ import { addMonths, subMonths, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 import { useTheme } from 'styled-components';
+import { useAuth } from '../../hooks/auth';
 
 import { categories } from '../../utils/categories';
 
@@ -56,6 +57,8 @@ export function Summary() {
 
   const theme = useTheme();
 
+  const { user } = useAuth();
+
   function handleDateChange(action: 'next' | 'prev') {
     if (action === 'next') {
       const newDate = addMonths(selectedDate, 1);
@@ -68,7 +71,7 @@ export function Summary() {
 
   async function loadData() {
     setIsLoading(true)
-    const dataKey = '@gofinances:transactions';
+    const dataKey = `@gofinances:transactions_user=${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted: TransactionData[] = response ? JSON.parse(response) : [];
 
