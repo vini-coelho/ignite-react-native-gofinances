@@ -2,7 +2,8 @@ import React, {
   createContext,
   useContext,
   useState,
-  ReactNode
+  ReactNode,
+  useEffect
 } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -28,6 +29,7 @@ interface IAuthContextData {
   user: User;
   signInWithGoogle: () => Promise<void>;
   signInWithApple: () => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 interface AuthorizationResponse {
@@ -41,6 +43,9 @@ const AuthContext = createContext({} as IAuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
+  const [userStorageLoading, setUserStorageLoading] = useState(true);
+
+  const userStorageKey = '@gofinances:user';
 
   async function signInWithGoogle() {
     try {
@@ -63,7 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           photo: userInfo.picture
         };
         setUser(userLogged);
-        await AsyncStorage.setItem('@gofinances:user', JSON.stringify(userLogged));
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
       }
     } catch(err) {
       throw new Error(err);
@@ -87,18 +92,38 @@ export function AuthProvider({ children }: AuthProviderProps) {
           photo: undefined
         }
         setUser(userLogged);
-        await AsyncStorage.setItem('@gofinances:user', JSON.stringify(userLogged));
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
       }
     } catch(err) {
       throw new Error(err);
     }
   }
 
+  async function signOut() {
+    setUser({} as User);
+    await AsyncStorage.removeItem(userStorageKey)
+  }
+
+  useEffect(() => {
+    async function loadStoredUserData() {
+      const storedUser = await AsyncStorage.getItem(userStorageKey);
+
+      if(storedUser) {
+        const loggedUser = JSON.parse(storedUser) as User;
+        setUser(loggedUser);
+      }
+
+      setUserStorageLoading(false);
+    }
+    loadStoredUserData();
+  }, []);
+
   return (
     <AuthContext.Provider value={{
       user,
       signInWithGoogle,
-      signInWithApple
+      signInWithApple,
+      signOut
     }}>
       { children }
     </AuthContext.Provider>
