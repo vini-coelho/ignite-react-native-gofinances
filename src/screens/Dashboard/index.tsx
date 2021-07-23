@@ -7,6 +7,8 @@ import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 
+import { useAuth } from '../../hooks/auth';
+
 import { HighlightCard } from '../../components/HighlightCard';
 import { LoadingScreen } from '../../components/LoadingScreen';
 import {
@@ -50,6 +52,8 @@ export function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState([] as DataListProps[]);
   const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
+
+  const { signOut } = useAuth();
 
   function getLastTransactionDate(
     collection: DataListProps[],
@@ -144,6 +148,10 @@ export function Dashboard() {
     }
   }
 
+  async function handleSignOut() {
+    await signOut();
+  }
+
   useEffect(() => {
     loadTransactions();
   }, []);
@@ -171,7 +179,7 @@ export function Dashboard() {
               <UserName>Vinicius</UserName>
             </User>
           </UserInfo>
-          <LogoutButton onPress={() => {}}>
+          <LogoutButton onPress={handleSignOut}>
             <Icon name='power'/>
           </LogoutButton>
         </UserWrapper>
